@@ -21,7 +21,7 @@ export class AuthService {
   }
 
   async createNewUser(body: RegisterDto): Promise<UserDocument> {
-    const user = await this.userService.checkUser(body.mobile);
+    const user = await this.userService.checkUserByMobile(body.mobile);
 
     if (user) {
       throw new ConflictException('This mobile is already registered');

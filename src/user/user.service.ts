@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import { Model, ObjectId, Types } from 'mongoose';
 
 import { User, UserDocument } from './schemas/user.schema';
 import { RegisterDto } from 'src/auth/dtos/auth.dto';
@@ -11,10 +11,14 @@ export class UserService {
     @InjectModel(User.name) private readonly userModel: Model<User>,
   ) {}
 
-  async checkUser(mobile: string): Promise<{ _id: Types.ObjectId }> {
+  async checkUserByMobile(mobile: string): Promise<{ _id: Types.ObjectId }> {
     return await this.userModel.exists({
       mobile,
     });
+  }
+
+  async findUserById(_id: ObjectId): Promise<UserDocument> {
+    return await this.userModel.findById(_id);
   }
 
   async createNewUser(body: RegisterDto): Promise<UserDocument> {
