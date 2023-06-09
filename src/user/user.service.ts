@@ -11,11 +11,10 @@ export class UserService {
     @InjectModel(User.name) private readonly userModel: Model<User>,
   ) {}
 
-  async checkUser(query: {
-    mobile?: string;
-    username?: string;
-  }): Promise<{ _id: Types.ObjectId }> {
-    return await this.userModel.exists(query);
+  async checkUser(mobile: string): Promise<{ _id: Types.ObjectId }> {
+    return await this.userModel.exists({
+      mobile,
+    });
   }
 
   async createNewUser(body: RegisterDto): Promise<UserDocument> {
