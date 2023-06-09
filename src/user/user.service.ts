@@ -21,6 +21,12 @@ export class UserService {
     return await this.userModel.findById(_id);
   }
 
+  async findUserByMobile(mobile: string): Promise<UserDocument> {
+    return await this.userModel.findOne({
+      mobile,
+    });
+  }
+
   async createNewUser(body: RegisterDto): Promise<UserDocument> {
     return await this.userModel.create(body);
   }

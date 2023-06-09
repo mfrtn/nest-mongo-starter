@@ -1,15 +1,18 @@
 import { Body, Controller, Post } from '@nestjs/common';
 
 import { AuthService } from './auth.service';
-import { RegisterDto } from './dtos/auth.dto';
+import { RegisterDto, SignInDto } from './dtos/auth.dto';
 
 @Controller()
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('/login/')
-  async login(): Promise<any> {
-    return this.authService.generateJwt('test');
+  async login(@Body() body: SignInDto): Promise<{ token: string }> {
+    const token = await this.authService.loginWithPassword(body);
+    return {
+      token,
+    };
   }
 
   @Post('/register/')
